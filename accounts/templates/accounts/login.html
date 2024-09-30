@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <style>
+        /* Gradient background */
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #00bcd4, #4caf50);
+            height: 100vh;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Form container */
+        .form-container {
+            background-color: #fff;
+            padding: 30px 40px;
+            border-radius: 10px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
+
+        /* Form title */
+        .form-container h2 {
+            margin-bottom: 20px;
+            font-size: 24px;
+            color: #00796b;
+        }
+
+        /* Input fields */
+        .form-container input {
+            width: 100%;
+            border: none;
+            border-bottom: 2px solid #00796b;
+            margin: 15px 0;
+            padding: 10px;
+            font-size: 16px;
+            outline: none;
+        }
+
+        /* Button styling */
+        .form-container button {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(to right, #00bcd4, #4caf50);
+            border: none;
+            border-radius: 25px;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .form-container button:hover {
+            background: linear-gradient(to right, #4caf50, #00bcd4);
+        }
+
+        /* Sign-up link */
+        .form-container p {
+            margin-top: 20px;
+            color: #757575;
+            font-size: 14px;
+        }
+
+        .form-container p a {
+            color: #00796b;
+            text-decoration: none;
+        }
+
+        .form-container p a:hover {
+            text-decoration: underline;
+        }
+
+        /* Message styling */
+        .message {
+            color: #00796b;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="form-container">
+        <h2>Login</h2>
+
+        {% if messages %}
+            <div class="message">
+                {% for message in messages %}
+                    {{ message }}
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        <form method="POST">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Login</button>
+        </form>
+        <p>Don't have an account? <a href="{% url 'signup' %}">Sign up</a></p>
+    </div>
+
+</body>
+</html>
