@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PetVet - Appointments</title>
+  {% load static %}
+  <link rel="stylesheet" href="{% static 'css/mainstyles.css' %}">  
+</head>
+<body>
+  <header>
+    <nav>
+      <div class="top-logo">
+        <img src="{% static 'images/toplogo.png' %}" alt="PetVet Logo">  
+        <h1>Pet<span class="highlight">Vet</span></h1>
+        <ul class="nav-links">
+            <li><a href="#">Home</a></li>
+            <li><a href="#" class="active">Appointments</a></li>
+            <li><a href="#">About Us</a></li>
+            <li><a href="#">Your Pet</a></li>
+            <li><a href="#">Billing</a></li>
+          </ul>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="text-content">
+        <h2>PETS LOVE THE <br> VET'S LOVE</h2>
+        <p>At PetVet, expert care meets genuine love for your pets. We're here to keep your furry friends happy, healthy, and by your side.</p>
+        <div class="buttons">
+          <button class="btn-primary">Set Appointment</button>
+          <button class="btn-secondary">Learn More</button>
+        </div>
+      </div>
+    </section>
+    <div class="image-content">
+        <img src="{% static 'images/dogimg.png' %}" alt="Golden Retriever" class="dog-image">  
+      </div>
+  </main>
+</body>
+</html>
