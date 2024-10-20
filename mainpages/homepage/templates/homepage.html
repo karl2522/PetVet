@@ -5,21 +5,22 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>PetVet - Home Page</title>
   {% load static %}
-  <link rel="stylesheet" href="{% static 'css/mainstyles.css' %}">  
+  <link rel="stylesheet" href="{% static 'css/mainstyles.css' %}">
 </head>
 <body>
   <header>
     <nav>
       <div class="top-logo">
-        <img src="{% static 'images/toplogo.png' %}" alt="PetVet Logo">  
+        <img src="{% static 'images/toplogo.png' %}" alt="PetVet Logo">
         <h1>Pet<span class="highlight">Vet</span></h1>
         <ul class="nav-links">
-            <li><a href="#" class="active">Home</a></li>
-            <li><a href="#">Appointments</a></li>
-            <li><a href="#">About Us</a></li>
-            <li><a href="#">Your Pet</a></li>
-            <li><a href="#">Billing</a></li>
-          </ul>
+          <li><a href="#" class="active">Home</a></li>
+          <li><a href="#">Appointments</a></li>
+          <li><a href="#">About Us</a></li>
+          <li><a href="#">Your Pet</a></li>
+          <li><a href="#">Billing</a></li>
+        </ul>
+        <img src="{% static 'images/profile.png' %}" alt="Profile">
       </div>
     </nav>
   </header>
@@ -30,14 +31,51 @@
         <h2>PETS LOVE THE <br> VET'S LOVE</h2>
         <p>At PetVet, expert care meets genuine love for your pets. We're here to keep your furry friends happy, healthy, and by your side.</p>
         <div class="buttons">
-          <button class="btn-primary">Set Appointment</button>
+          <button id="appointment-btn" class="btn-primary">Set Appointment</button>
           <button class="btn-secondary">Learn More</button>
         </div>
       </div>
     </section>
     <div class="image-content">
-        <img src="{% static 'images/dogimg.png' %}" alt="Golden Retriever" class="dog-image">  
-      </div>
+      <img src="{% static 'images/dogimg.png' %}" alt="Golden Retriever" class="dog-image">
+    </div>
   </main>
+
+  <!-- Modal for appointment form -->
+  <button id="appointment-btn" class="lp-signup-btn">Set Appointment</button>
+
+  <!-- Modal Structure -->
+  <div id="modal" class="modal-background">
+    <div class="modal-content">
+      <button class="close-btn" onclick="closeModal()">×</button>
+      <h2>Make an Appointment</h2>
+      <form class="appointment-form" id="appointment-form" action="{% url 'set_appointment' %}" method="POST">
+        {% csrf_token %}
+        <div class="form-row">
+          <input type="text" name="owner_name" placeholder="Owner Name" required>
+          <input type="text" name="pet_name" placeholder="Pet Name" required>
+        </div>
+        <div class="form-row">
+          <input type="text" name="email" placeholder="Email" required>
+          <input type="text" name="phone_number" placeholder="Phone Number" required>
+        </div>
+        <div class="form-row">
+          <input type="date" name="appointment_date" required>
+          <input type="time" name="appointment_time" required>
+        </div>
+        <div class="form-row">
+          <input type="text" name="veterinarian_name" class="full-width" placeholder="Veterinarian" required>
+        </div>
+        <textarea name="reason" placeholder="Reason for visit" required></textarea>
+        <div class="btn-row">
+          <button type="button" class="cancel-btn" onclick="closeModal()">Cancel</button>
+          <button type="submit" class="submit-btn">Submit</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+
+  <script src="{% static 'js/modal.js' %}"></script>
 </body>
 </html>
