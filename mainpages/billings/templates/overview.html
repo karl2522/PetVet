@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Billing Overview</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f8ff; /* Light blue background */
+            margin: 0;
+            padding: 20px;
+        }
+        h2 {
+            text-align: center;
+            color: #004080; /* Dark blue color for heading */
+        }
+        table {
+            width: 80%;
+            margin: 20px auto;
+            border-collapse: collapse;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px; /* Rounded corners for the table */
+            overflow: hidden; /* To ensure rounded corners are visible */
+        }
+        th, td {
+            padding: 12px;
+            border: 1px solid #ddd;
+            text-align: center;
+        }
+        th {
+            background-color: #cce5ff; /* Light blue for header */
+            color: #004080; /* Dark blue text for header */
+        }
+        tr:nth-child(even) {
+            background-color: #e6f7ff; /* Lighter blue for even rows */
+        }
+        td {
+            color: #333; /* Dark text for data */
+        }
+    </style>
+</head>
+<body>
+<br><br><br><br><br><br>
+<h2>Billing Overview</h2>
+
+<table>
+    <thead>
+        <tr>
+            <th>Billing ID</th>
+            <th>Appointment ID</th>
+            <th>Total Amount</th>
+            <th>Date of Payment</th>
+            <th>Payment Method</th>
+            <th>Payment Status</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for billing in billings %}
+        <tr>
+            <td>{{ billing.billing_id }}</td>
+            <td>{{ billing.appointment_id }}</td>
+            <td>${{ billing.total_amount }}</td>
+            <td>{{ billing.date_of_payment }}</td>
+            <td>{{ billing.get_payment_method_display }}</td>
+            <td>{{ billing.get_payment_status_display }}</td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="6">No billing records found.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+</body>
+</html>
