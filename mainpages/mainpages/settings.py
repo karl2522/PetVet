@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'homepage',
     'landingpage',
     'appointments',
+    'registration_login',
 ]
 
 MIDDLEWARE = [

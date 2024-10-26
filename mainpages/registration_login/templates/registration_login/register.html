@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create an Account</title>
+
+    <!-- Load static tag for static files -->
+    {% load static %}
+
+    <!-- Import Poppins font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
+    <!-- Custom Styles -->
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #B6F2F2; /* Updated background color */
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            display: flex;
+            max-width: 1100px;
+            margin: auto;
+            box-shadow: 0px 8px 30px rgba(0, 0, 0, 0.3);
+            background-color: #fff;
+            border-radius: 20px;
+            overflow: hidden;
+        }
+
+        .image-container {
+            flex: 1.2; /* Make the image take slightly more space */
+            overflow: hidden;
+            position: relative;
+            border-top-left-radius: 20px;
+            border-bottom-left-radius: 20px;
+        }
+
+        .image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Ensures the image covers the entire area */
+            display: block;
+            border-radius: 20px 0 0 20px;
+        }
+
+        .back-to-website {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            color: #fff;
+            background-color: rgba(0, 0, 0, 0.5);
+            border-radius: 20px;
+            padding: 10px 20px;
+            font-size: 0.9em;
+            text-decoration: none;
+        }
+
+        .form-container {
+            flex: 1;
+            padding: 50px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+        }
+
+        .form-container h1 {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .form-container p {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        .form-container a {
+            color: #0066cc;
+            text-decoration: none;
+        }
+
+        .form-container a:hover {
+            text-decoration: underline;
+        }
+
+        .form-container form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-container form input {
+            background-color: #f0f0f0;
+            border: none;
+            padding: 15px;
+            border-radius: 10px;
+            font-size: 16px;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .form-container form input::placeholder {
+            color: #999;
+        }
+
+        .form-container form input[type="submit"] {
+            background-color: #5e5ce6;
+            border: none;
+            color: white;
+            font-weight: 600;
+            padding: 15px;
+            border-radius: 10px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        .form-container form input[type="submit"]:hover {
+            background-color: #4a4acc;
+        }
+
+        .social-login-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+        }
+
+        .social-login-buttons a {
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #f0f0f0;
+            border-radius: 10px;
+            text-decoration: none;
+            color: #333;
+            padding: 15px;
+            flex: 1;
+            margin-right: 10px;
+        }
+
+        .social-login-buttons a img {
+            width: 20px;
+            height: 20px;
+            margin-right: 10px;
+        }
+
+        .social-login-buttons a:last-child {
+            margin-right: 0;
+        }
+
+        .terms-checkbox {
+            display: flex;
+            align-items: center; /* Vertically center checkbox and label */
+            margin-top: 15px; /* Top margin to provide spacing from the previous input field */
+            margin-bottom: 15px; /* Consistent margin to ensure spacing from next element */
+            color: #333;
+            gap: 12px; /* Increased gap to ensure text is at a comfortable distance */
+        }
+
+        .terms-checkbox input {
+            margin: 0; /* Remove default margins */
+            transform: scale(1.2); /* Increase size to make it visually similar to your example */
+            width: 18px; /* Specify a width for better cross-browser consistency */
+            height: 18px; /* Specify a height for better cross-browser consistency */
+        }
+
+        .logo-container {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+        }
+
+        .logo-container img {
+            width: 60px;
+            height: 60px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Registration Form Layout -->
+    <div class="container">
+        <!-- Image Section -->
+        <div class="image-container">
+            <a href="{% url 'landingpage' %}" class="back-to-website">Back to website &rarr;</a>
+            <img src="{% static 'images/labrador.jpg' %}" alt="Labrador">
+        </div>
+
+        <!-- Form Section -->
+        <div class="form-container">
+            <!-- Logo at the Upper Right -->
+            <div class="logo-container">
+                <img src="{% static 'images/toplogo.png' %}" alt="Logo">
+            </div>
+
+            <h1>Create an account</h1>
+            <p>Already have an account? <a href="{% url 'my_login' %}">Log in</a></p>
+
+            <!-- Form Starts -->
+            <form method="POST" autocomplete="off">
+                {% csrf_token %}
+                {{ form.non_field_errors }}
+                
+                <div>
+                    {{ form.username.errors }}
+                    <input type="text" name="username" placeholder="Username" required>
+                </div>
+                <div>
+                    {{ form.first_name.errors }}
+                    <input type="text" name="first_name" placeholder="First Name" required>
+                </div>
+                <div>
+                    {{ form.last_name.errors }}
+                    <input type="text" name="last_name" placeholder="Last Name" required>
+                </div>
+                <div>
+                    {{ form.email.errors }}
+                    <input type="email" name="email" placeholder="Email" required>
+                </div>
+                <div>
+                    {{ form.password1.errors }}
+                    <input type="password" name="password1" placeholder="Enter your password" required>
+                </div>
+                <div>
+                    {{ form.password2.errors }}
+                    <input type="password" name="password2" placeholder="Confirm your password" required>
+                </div>
+            
+                <!-- Terms and Conditions Checkbox -->
+                <div class="terms-checkbox">
+                    <input type="checkbox" name="terms" required>
+                    <span>I agree to the <a href="#">Terms & Conditions</a></span>
+                </div>
+            
+                <!-- Submit Button -->
+                <input type="submit" value="Create account">
+            
+                <!-- Social Login Options -->
+                <div class="social-login-buttons">
+                    <a href="#"><img src="{% static 'images/google-logo.png' %}" alt="Google"> Google</a>
+                    <a href="#"><img src="{% static 'images/apple-logo.png' %}" alt="Apple"> Apple</a>
+                </div>
+            </form>
+            
+        </div>
+    </div>
+
+</body>
+</html>
