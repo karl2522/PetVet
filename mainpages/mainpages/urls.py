@@ -28,12 +28,10 @@ urlpatterns = [
     path('', views.appointments, name="set_appointment"),
 
     path('landingpage', landing_views.landingpage, name='landingpage'),
-    path('register/', registration_views.register, name='register'),
     path('login/', registration_views.my_login, name='my_login'),
     path('logout/', registration_views.user_logout, name='logout'),
     ##path('profile/', registration_views.profile, name='profile'),
-    path('registration_success/', registration_views.registration_success, name='registration_success'),
-    
     path('homepage', homepage_views.homepage, name='homepage'),
-
+     path('register/', registration_views.register, name='register'),
+    path('registration_success/', registration_views.registration_success, name='registration_success'),
 ]

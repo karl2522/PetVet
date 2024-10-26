@@ -22,12 +22,11 @@ def register(request):
         form = CreateUserForm(request.POST)
         if form.is_valid():
             form.save()
-            print("User successfully saved")
-            return redirect("registration_success")
+            return redirect('registration_success')
         else:
             print(form.errors)  # Print errors to debug validation issues
 
-    context = {'registerform': form}
+    context = {'form': form}
     return render(request, 'registration_login/register.html', context=context)
 
 def my_login(request):
@@ -55,31 +54,3 @@ def registration_success(request):
 def set_appointment(request):
     # Add your appointment logic here
     return render(request, 'appointments/set_appointment.html')
-
-
-#@login_required(login_url="my_login")
-#def profile(request):
-    return render(request, 'registration_login/profile.html')
-
-#@login_required(login_url="my_login")
-#def user_details(request):
-    user = request.user
-    # Get the user's profile, or create it if it doesn't exist
-    profile, created = Profile.objects.get_or_create(user=user)
-    
-    if request.method == "POST":
-        form = UserDetailsForm(request.POST, instance=profile)
-        if form.is_valid():
-            form.save(user=user)
-            return redirect('profile')
-    else:
-        form = UserDetailsForm(instance=profile, initial={'first_name': user.first_name, 'last_name': user.last_name})
-    
-    context = {'form': form}
-    return render(request, 'accounts/user_details.html', context)
-
-
-
-
-
-
