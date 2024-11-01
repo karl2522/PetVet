@@ -207,32 +207,7 @@
             <!-- Form Starts -->
             <form method="POST" autocomplete="off">
                 {% csrf_token %}
-                {{ form.non_field_errors }}
-                
-                <div>
-                    {{ form.username.errors }}
-                    <input type="text" name="username" placeholder="Username" required>
-                </div>
-                <div>
-                    {{ form.first_name.errors }}
-                    <input type="text" name="first_name" placeholder="First Name" required>
-                </div>
-                <div>
-                    {{ form.last_name.errors }}
-                    <input type="text" name="last_name" placeholder="Last Name" required>
-                </div>
-                <div>
-                    {{ form.email.errors }}
-                    <input type="email" name="email" placeholder="Email" required>
-                </div>
-                <div>
-                    {{ form.password1.errors }}
-                    <input type="password" name="password1" placeholder="Enter your password" required>
-                </div>
-                <div>
-                    {{ form.password2.errors }}
-                    <input type="password" name="password2" placeholder="Confirm your password" required>
-                </div>
+                {{ form.as_p }} <!-- Renders all the form fields automatically including errors -->
             
                 <!-- Terms and Conditions Checkbox -->
                 <div class="terms-checkbox">

@@ -10,6 +10,8 @@ from django.contrib.auth import authenticate, login, logout
 from .models import Profile  # Import Profile model
 #from .forms import UserDetailsForm  
 
+from django.http import HttpResponse
+
 def homepage(request):
     return render(request, 'mainpages/homepage.html')
 
@@ -21,7 +23,18 @@ def register(request):
     if request.method == "POST":
         form = CreateUserForm(request.POST)
         if form.is_valid():
-            form.save()
+            # Save the User instance
+            user = form.save()
+
+            # Create or get the Profile for the new user
+            Profile.objects.get_or_create(
+                user=user,
+                defaults={
+                    'first_name': form.cleaned_data.get('first_name'),
+                    'last_name': form.cleaned_data.get('last_name'),
+                }
+            )
+
             return redirect('registration_success')
         else:
             print(form.errors)  # Print errors to debug validation issues
@@ -54,3 +67,6 @@ def registration_success(request):
 def set_appointment(request):
     # Add your appointment logic here
     return render(request, 'appointments/set_appointment.html')
+
+#def all_user(request):
+#    return HttpResponse('Returning all user')
