@@ -16,24 +16,30 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from appointments import views 
+from appointments import views as appointments_views
 from landingpage import views as landing_views
 from registration_login import views as registration_views
 from homepage import views as homepage_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    ##path('', views.homepage, name='homepage'),
-    #path('set-appointment/', appointments_views.set_appointment, name='set_appointments'),
-    path('', views.appointments, name="set_appointment"),
+    path('', homepage_views.homepage, name='homepage'),
 
-    path('landingpage', landing_views.landingpage, name='landingpage'),
+    # Appointment URLs
+    path('appointments/', appointments_views.appointments_page, name="appointments_page"),
+    path('set-appointment/', appointments_views.set_appointment, name='set_appointment'),
+    path('appointments/cancel/<int:id>/', appointments_views.cancel_appointment, name='cancel_appointment'),  
+
+    # Landing page
+    path('landingpage/', landing_views.landingpage, name='landingpage'),
+
+    # Authentication
     path('login/', registration_views.my_login, name='my_login'),
     path('logout/', registration_views.user_logout, name='logout'),
-    ##path('profile/', registration_views.profile, name='profile'),
-    path('homepage', homepage_views.homepage, name='homepage'),
     path('register/', registration_views.register, name='register'),
     path('registration_success/', registration_views.registration_success, name='registration_success'),
-    #path('registration/', include('registration_login.urls')),
+
+    # Profile and other apps
+    # path('profile/', registration_views.profile, name='profile'),
     path('pet_registration/', include('pet_registration.urls')),
 ]
