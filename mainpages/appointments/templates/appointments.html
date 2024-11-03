@@ -25,14 +25,61 @@
     </nav>
   </header>
 
-  <main>
-    <div class="main-row">
+  
+    <div class="appointments-row">
       <h2>Welcome Jared Karl!</h2>
-      <button class="add-appointmentsbtn">Add Appointments
+      <button class="add-appointmentsbtn">
+        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
+          <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2"/>
+      </svg>
+      Add Appointments
       </button>
+    </div>
+
+    <main>
+    <div class="appointments-container">
+      <section class="calendar-section">
+        <h2>Appointments</h2>
+        <div class="calendar-header">
+          <button class="prev-month">&lt;</button>
+          <h3 id="currentMonth">October 2024</h3>
+          <button class="next-month">&gt;</button>
+        </div>
+        <div class="calendar">
+          <div class="weekdays">
+            <div>Sun</div>
+            <div>Mon</div>
+            <div>Tue</div>
+            <div>Wed</div>
+            <div>Thu</div>
+            <div>Fri</div>
+            <div>Sat</div>
+          </div>
+          <div id="calendar-days" class="days"></div>
+        </div>
+      </section>
+
+      <section class="appointments-list">
+        <div class="list-header">
+          <h2>Appointment List</h2>
+          <a href="#" class="see-all">See all</a>
+        </div>
+        <div class="list-filters">
+          <div class="filter">Veterinarian Name ▼</div>
+          <div class="filter">Pet Name ▼</div>
+          <div class="filter">Reason ▼</div>
+          <div class="filter">Date ▼</div>
+          <div class="filter">Time ▼</div>
+          <div class="filter">Status ▼</div>
+          <div class="filter">Actions ▼</div>
+        </div>
+        <div class="appointments">
+          <!-- Appointment items will be added here by JavaScript -->
+        </div>
+      </section>
     </div>
   </main>
 
-
+  <script src="{% static 'js/appointments.js' %}"></script>
 </body>
 </html>
