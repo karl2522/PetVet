@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+
+    <!-- Import Poppins font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
+    <!-- Bootstrap for basic styling and custom CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom Styles -->
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: rgba(29, 218, 218, 0.85); /* Background color with 85% opacity */
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0;
+        }
+
+        .login-container {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.1);
+            width: 350px;
+            padding: 30px;
+            text-align: left;  /* Changed to left alignment */
+        }
+
+        .login-container h1 {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            text-align: center;  /* Center title */
+        }
+
+        .login-container form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .login-container form label {
+            text-align: left;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .login-container form input[type="text"],
+        .login-container form input[type="password"] {
+            border: 1px solid #ccc;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            width: 100%;  /* Full width */
+        }
+
+        .login-container form input[type="submit"] {
+            background-color: #FFC107;
+            border: none;
+            color: white;
+            font-weight: 600;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .login-container form input[type="submit"]:hover {
+            background-color: #e0a800;
+        }
+
+        .login-container a {
+            color: #FFC107;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .login-container a:hover {
+            text-decoration: underline;
+        }
+
+        .forgot-password,
+        .signup-link {
+            margin-top: 10px;
+            font-size: 14px;
+        }
+
+        .close-button {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 24px;
+            color: #333;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Close Button for Popup Style -->
+    <div class="close-button" onclick="closePage()">&times;</div>
+
+    <div class="login-container">
+        <h1>Sign in</h1>
+        <form method="POST" autocomplete="off">
+            {% csrf_token %}
+
+            <!-- Username field -->
+            <label for="username">Username:</label>
+            {{ loginform.username }}
+
+            <!-- Password field -->
+            <label for="password">Password:</label>
+            {{ loginform.password }}
+
+            <a href="#" class="forgot-password">Forgot your password?</a>
+
+            <!-- Submit Button -->
+            <input type="submit" value="Login"/>
+        </form>
+
+        <div class="signup-link">
+            Don't have an account? <a href="{% url 'register' %}">Sign up</a>
+        </div>
+    </div>
+
+    <!-- JavaScript for Close Button functionality -->
+    <script>
+        function closePage() {
+            // Redirect to the home page when the close button is clicked
+            window.location.href = "{% url 'homepage' %}";
+        }
+    </script>
+
+    <!-- Optional JavaScript for Bootstrap -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>

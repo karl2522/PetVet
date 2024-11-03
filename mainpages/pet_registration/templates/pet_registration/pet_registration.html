@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pet Registration</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #B6F2F2;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .registration-container {
+            width: 60%;
+            max-width: 800px;
+            background-color: #ffffff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            display: flex;
+            gap: 20px;
+            padding: 20px;
+        }
+        .image-container {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .image-container img {
+            max-width: 100%;
+            border-radius: 10px;
+        }
+        .form-container {
+            flex: 1;
+        }
+        .form-container h1 {
+            text-align: center;
+            color: #424242;
+            font-weight: 500;
+            margin-bottom: 20px;
+        }
+        .form-group {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            color: #424242;
+            font-size: 0.9em;
+        }
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-family: 'Poppins', sans-serif;
+        }
+        .form-group textarea {
+            resize: none;
+        }
+        .half-width {
+            flex: 1;
+        }
+        .submit-btn {
+            background-color: #FFC107;
+            border: none;
+            padding: 10px;
+            color: white;
+            font-weight: bold;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            margin-top: 20px;
+        }
+        .submit-btn:hover {
+            background-color: #e0a800;
+        }
+    </style>
+</head>
+<body>
+    <div class="registration-container">
+        <div class="image-container">
+            <img src="{% static 'images/cat.jpg' %}" alt="Pet Image">
+        </div>
+        <div class="form-container">
+            <h1>Register a New Pet</h1>
+            <form method="POST">
+                {% csrf_token %}
+                <div class="form-group">
+                    <div class="half-width">
+                        <label for="id_pet_name">Pet Name:</label>
+                        {{ form.pet_name }}
+                    </div>
+                    <div class="half-width">
+                        <label for="id_sex">Sex:</label>
+                        {{ form.sex }}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="half-width">
+                        <label for="id_breed">Breed:</label>
+                        {{ form.breed }}
+                    </div>
+                    <div class="half-width">
+                        <label for="id_birthday">Birthday:</label>
+                        {{ form.birthday }}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="half-width">
+                        <label for="id_species">Species:</label>
+                        {{ form.species }}
+                    </div>
+                    <div class="half-width">
+                        <label for="id_weight">Weight (in kg):</label>
+                        {{ form.weight }}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="id_pet_description">Pet Description:</label>
+                    {{ form.pet_description }}
+                </div>
+                <div class="form-group">
+                    <label for="id_owner">Owner:</label>
+                    {{ form.owner }}
+                </div>
+                <button type="submit" class="submit-btn">Register Pet</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
