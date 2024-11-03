@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Billing Overview</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/mainstyles.css' %}">  
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -38,12 +40,44 @@
         td {
             color: #333; /* Dark text for data */
         }
+        .button-container {
+            text-align: center;
+            margin: 20px auto;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #004080;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #00509e; /* Darker blue on hover */
+        }
     </style>
 </head>
 <body>
-<br><br><br><br><br><br>
+    <header>
+        <nav>
+          <div class="top-logo">
+            <img src="{% static 'images/toplogo.png' %}" alt="PetVet Logo">  
+            <h1>Pet<span class="highlight">Vet</span></h1>
+            <ul class="nav-links">
+                <li><a href="#">Home</a></li>
+                <li><a href="#">Appointments</a></li>
+                <li><a href="#">About Us</a></li>
+                <li><a href="#">Your Pet</a></li>
+                <li><a href="#" class="active">Billing</a></li>
+              </ul>
+              <img src="{% static 'images/profile.png' %}" alt="Profile">
+          </div>
+        </nav>
+    </header>
+<br></br>
 <h2>Billing Overview</h2>
 
+<!-- Table for all billing records -->
 <table>
     <thead>
         <tr>
@@ -67,11 +101,54 @@
         </tr>
         {% empty %}
         <tr>
-            <td colspan="6">No billing records found.</td>
+            <td colspan="6">No billing records found</td>
         </tr>
         {% endfor %}
     </tbody>
 </table>
 
+<!-- Pending Billing Records Section -->
+<h2>Pending Billing Records</h2>
+<table>
+    <thead>
+        <tr>
+            <th>Billing ID</th>
+            <th>Appointment ID</th>
+            <th>Total Amount</th>
+            <th>Date of Payment</th>
+            <th>Payment Method</th>
+            <th>Payment Status</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% if pending_card_billings %}
+            {% for billing in pending_card_billings %}
+            <tr>
+                <td>{{ billing.billing_id }}</td>
+                <td>{{ billing.appointment_id }}</td>
+                <td>${{ billing.total_amount }}</td>
+                <td>{{ billing.date_of_payment }}</td>
+                <td>{{ billing.get_payment_method_display }}</td>
+                <td>{{ billing.get_payment_status_display }}</td>
+            </tr>
+            {% endfor %}
+        {% else %}
+        <tr>
+            <td colspan="6">No pending card billing records found.</td>
+        </tr>
+        {% endif %}
+    </tbody>
+</table>
+
+<!-- Choose Payment Method Button -->
+<div class="button-container">
+    <button id="choose-payment-button">Choose Payment Method</button>
+</div>
+
+<script>
+    document.getElementById('choose-payment-button').onclick = function() {
+        window.location.href = "{% url 'billings:choose_payment_method' %}";
+    };
+</script>
 </body>
 </html>

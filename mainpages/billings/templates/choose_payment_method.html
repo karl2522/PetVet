@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Choose Payment Method</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/mainstyles.css' %}">  
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f8ff; /* Light blue background */
+            margin: 0;
+            padding: 20px;
+        }
+        h2 {
+            text-align: center;
+            color: #004080; /* Dark blue for heading */
+        }
+        header {
+            margin-bottom: 20px;
+        }
+        .top-logo {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .nav-links {
+            list-style: none;
+            padding: 0;
+            display: flex;
+        }
+        .nav-links li {
+            margin: 0 15px;
+        }
+        .nav-links a {
+            text-decoration: none;
+            color: #004080;
+        }
+        .nav-links a.active {
+            font-weight: bold;
+            color: #00509e;
+        }
+        form {
+            width: 50%;
+            margin: 0 auto;
+            background-color: #ffffff; /* White background for the form */
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Shadow for the form */
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333; /* Dark text for labels */
+        }
+        select, button {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ddd; /* Light border */
+            border-radius: 4px; /* Rounded corners */
+        }
+        button {
+            background-color: #004080; /* Dark blue for button */
+            color: white; /* White text */
+            border: none; /* Remove border */
+            cursor: pointer; /* Pointer on hover */
+        }
+        button:hover {
+            background-color: #00509e; /* Lighter blue on hover */
+        }
+        .payment-methods {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+        }
+        .payment-option {
+            text-align: center;
+            margin: 10px;
+        }
+        .payment-image {
+            width: 250px; /* Adjust image size */
+            height: auto;
+            margin-bottom: 10px; /* Space below images */
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="top-logo">
+                <img src="{% static 'images/toplogo.png' %}" alt="PetVet Logo">  
+                <h1>Pet<span class="highlight">Vet</span></h1>
+                <ul class="nav-links">
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">Appointments</a></li>
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Your Pet</a></li>
+                    <li><a href="#" class="active">Billing</a></li>
+                </ul>
+                <img src="{% static 'images/profile.png' %}" alt="Profile">
+            </div>
+        </nav>
+    </header>
+    <br/>
+    <h2>Choose Payment Method</h2>
+    <br/>
+    <form id="payment-form">
+            <h3 style="text-align: center;">Payment Options</h3><br/>
+            <div class="payment-methods">
+                <div class="payment-option">
+                    <img src="{% static 'images/credit_card.png' %}" alt="Credit Card" class="payment-image">
+                    <p>Credit Card</p>
+                </div>
+                <div class="payment-option">
+                    <img src="{% static 'images/paypal.png' %}" alt="PayPal" class="payment-image">
+                    <p>Paypal</p>
+                </div>
+                <div class="payment-option">
+                    <img src="{% static 'images/gcash.png' %}" alt="Gcash" class="payment-image">
+                    <p>Gcash</p>
+                </div>
+            </div>
+            <br/><br/><br/>
+        
+            <select name="payment_method" id="payment_method" required>
+                <option value="" disabled selected>Select your payment method</option>
+                <option value="credit_card">Credit Card</option>
+                <option value="paypal">Paypal</option>
+                <option value="gcash">Gcash</option>
+            </select>
+            <br/><br/><br/><br/><br/><br/>
+        
+            <button id="confirm-payment-button" type="button">Confirm Payment Method</button>
+        </form>
+        
+        
+    
+    </form>
+</body>
+</html>

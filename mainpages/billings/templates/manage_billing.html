@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Billing</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/mainstyles.css' %}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f8ff; /* Light blue background */
+            margin: 0;
+            padding: 20px;
+        }
+        h2 {
+            text-align: center;
+            color: #004080; /* Dark blue color for heading */
+        }
+        h3 {
+            text-align: center; /* Center the Owner ID heading */
+            color: #004080; /* Dark blue color for subheading */
+        }
+        table {
+            width: 80%;
+            margin: 20px auto;
+            border-collapse: collapse;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px; /* Rounded corners for the table */
+            overflow: hidden; /* To ensure rounded corners are visible */
+        }
+        th, td {
+            padding: 12px;
+            border: 1px solid #ddd;
+            text-align: center;
+        }
+        th {
+            background-color: #cce5ff; /* Light blue for header */
+            color: #004080; /* Dark blue text for header */
+        }
+        tr:nth-child(even) {
+            background-color: #e6f7ff; /* Lighter blue for even rows */
+        }
+        td {
+            color: #333; /* Dark text for data */
+        }
+        .button-container {
+            text-align: center;
+            margin: 20px auto;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #004080;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #00509e; /* Darker blue on hover */
+        }
+        .search-container {
+            display: flex; /* Use flexbox for alignment */
+            justify-content: center; /* Center the search form */
+            margin: 20px auto;
+            font-size: 20px;
+        }
+        .search-container form {
+            display: flex; /* Keep the form inline for centering */
+        }
+        .search-container input {
+            margin-right: 10px; /* Add space between input and button */
+            flex: 1; /* Allow input to grow */
+        }
+        .edit-form {
+            display: none; /* Hide the edit form initially */
+            margin: 20px auto;
+            text-align: center;
+        }
+        .edit-form input,
+        .edit-form select {
+            margin: 5px;
+            padding: 8px;
+        }
+    </style>
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="top-logo">
+                <img src="{% static 'images/toplogo.png' %}" alt="PetVet Logo">
+                <h1>Pet<span class="highlight">Vet</span></h1>
+                <ul class="nav-links">
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">Appointments</a></li>
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Your Pet</a></li>
+                    <li><a href="#" class="active">Billing</a></li>
+                </ul>
+                <img src="{% static 'images/profile.png' %}" alt="Profile">
+            </div>
+        </nav>
+    </header>
+    <h2>Manage Billing</h2>
+
+    <div class="search-container">
+        <form method="POST">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Search Owner</button>
+        </form>
+    </div>
+
+    {% if owner_id %}
+        <h3>Billing Overview for Owner ID: {{ owner_id }}</h3>
+
+        <!-- Edit Form -->
+        <div class="edit-form" id="edit-form">
+            <h4>Edit Billing Record</h4>
+            <input type="hidden" id="billing-id" value="">
+            <input type="text" id="appointment-id" placeholder="Appointment ID">
+            <input type="number" id="total-amount" placeholder="Total Amount">
+            <input type="date" id="date-of-payment" placeholder="Date of Payment">
+            <select id="payment-method">
+                <option value="">Select Payment Method</option>
+                <option value="Card"> Card</option>
+                <option value="Cash">Cash</option>
+            </select>
+            <select id="payment-status">
+                <option value="">Select Payment Status</option>
+                <option value="Completed">Completed</option>
+                <option value="Pending">Pending</option>
+                <option value="Failed">Failed</option>
+            </select>
+            <button id="save-button">Save</button>
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Billing ID</th>
+                    <th>Appointment ID</th>
+                    <th>Total Amount</th>
+                    <th>Date of Payment</th>
+                    <th>Payment Method</th>
+                    <th>Payment Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if billings %}
+                    {% for billing in billings %}
+                        <tr data-billing-id="{{ billing.billing_id }}">
+                            <td>{{ billing.billing_id }}</td>
+                            <td>{{ billing.appointment_id }}</td>
+                            <td>${{ billing.total_amount }}</td>
+                            <td>{{ billing.date_of_payment }}</td>
+                            <td>{{ billing.get_payment_method_display }}</td>
+                            <td>{{ billing.get_payment_status_display }}</td>
+                            <td>
+                                <button class="edit-button">Edit</button>
+                                <button class="delete-button" data-billing-id="{{ billing.billing_id }}">Delete</button>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr>
+                        <td colspan="7">No billing records found for this owner.</td>
+                    </tr>
+                {% endif %}
+            </tbody>
+        </table>
+    {% endif %}
+
+    <script>
+        const csrfToken = '{{ csrf_token }}';
+
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.edit-button').forEach(button => {
+                button.addEventListener('click', function() {
+                    const row = this.closest('tr');
+                    const billingId = row.dataset.billingId;
+                    const appointmentId = row.cells[1].textContent;
+                    const totalAmount = row.cells[2].textContent.replace('$', '');
+                    const dateOfPayment = row.cells[3].textContent;
+                    const paymentMethod = row.cells[4].textContent;
+                    const paymentStatus = row.cells[5].textContent;
+
+                    const dateObject = new Date(dateOfPayment);
+                    const formattedDate = dateObject.toISOString().split('T')[0];
+
+                    document.getElementById('billing-id').value = billingId;
+                    document.getElementById('appointment-id').value = appointmentId;
+                    document.getElementById('total-amount').value = totalAmount;
+                    document.getElementById('date-of-payment').value = formattedDate;
+                    document.getElementById('payment-method').value = paymentMethod;
+                    document.getElementById('payment-status').value = paymentStatus;
+
+                    document.getElementById('edit-form').style.display = 'block';
+                });
+            });
+
+            document.getElementById('save-button').addEventListener('click', function() {
+                const billingId = document.getElementById('billing-id').value;
+                const updatedData = {
+                    appointment_id: document.getElementById('appointment-id').value,
+                    total_amount: document.getElementById('total-amount').value,
+                    date_of_payment: document.getElementById('date-of-payment').value,
+                    payment_method: document.getElementById('payment-method').value,
+                    payment_status: document.getElementById('payment-status').value,
+                };
+
+                fetch(`/update_billing/${billingId}/`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': csrfToken,
+                    },
+                    body: JSON.stringify(updatedData),
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        const row = document.querySelector(`tr[data-billing-id="${billingId}"]`);
+                        row.cells[1].textContent = updatedData.appointment_id;
+                        row.cells[2].textContent = `$${updatedData.total_amount}`;
+                        row.cells[3].textContent = updatedData.date_of_payment;
+                        row.cells[4].textContent = updatedData.payment_method;
+                        row.cells[5].textContent = updatedData.payment_status;
+                        document.getElementById('edit-form').style.display = 'none';
+                    } else {
+                        alert('Error updating billing record.');
+                    }
+                });
+            });
+
+            document.querySelectorAll('.delete-button').forEach(button => {
+                button.addEventListener('click', function() {
+                    const row = this.closest('tr');
+                    const billingId = this.dataset.billingId;
+
+                    if (confirm('Are you sure you want to delete this billing record?')) {
+                        fetch(`/delete_billing/${billingId}/`, {
+                            method: 'POST',
+                            headers: {
+                                'X-CSRFToken': csrfToken,
+                            },
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                row.remove();
+                            } else {
+                                alert('Error deleting billing record.');
+                            }
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

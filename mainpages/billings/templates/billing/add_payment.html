@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add Payment</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/mainstyles.css' %}">  
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -50,7 +52,22 @@
     </style>
 </head>
 <body>
-
+    <header>
+        <nav>
+          <div class="top-logo">
+            <img src="{% static 'images/toplogo.png' %}" alt="PetVet Logo">  
+            <h1>Pet<span class="highlight">Vet</span></h1>
+            <ul class="nav-links">
+                <li><a href="#">Home</a></li>
+                <li><a href="#">Appointments</a></li>
+                <li><a href="#">About Us</a></li>
+                <li><a href="#">Your Pet</a></li>
+                <li><a href="#" class="active">Billing</a></li>
+              </ul>
+              <img src="{% static 'images/profile.png' %}" alt="Profile">
+          </div>
+        </nav>
+    </header>
 <h2>Add Payment (Admin)</h2>
 
 {% if messages %}
