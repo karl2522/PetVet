@@ -83,12 +83,12 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'dbpetvet',
         'USER': 'root',
-        'PASSWORD': '0821',
+        'PASSWORD': 'Jaredkarlgwapo2225',
+        'HOST': 'localhost',
         'PORT': '3306',
-        'HOST': '127.0.0.1',
-
     }
 }
+
 
 
 # Password validation

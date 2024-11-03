@@ -8,13 +8,20 @@
   <link rel="stylesheet" href="{% static 'css/mainstyles.css' %}">  
 </head>
 <body>
+    {% if messages %}
+        <div class="alert-container">
+            {% for message in messages %}
+                <div class="alert">{{ message }}</div>
+            {% endfor %}
+        </div>
+    {% endif %}
   <header>
     <nav>
       <div class="top-logo">
         <img src="{% static 'images/toplogo.png' %}" alt="PetVet Logo">  
         <h1>Pet<span class="highlight">Vet</span></h1>
         <ul class="nav-links">
-            <li><a href="#">Home</a></li>
+            <li><a href="{% url 'homepage' %}">Home</a></li>
             <li><a href="#" class="active">Appointments</a></li>
             <li><a href="#">About Us</a></li>
             <li><a href="#">Your Pet</a></li>
@@ -25,6 +32,112 @@
     </nav>
   </header>
 
+  <div class="appointments-row">
+    <h2>Welcome Jared Karl!</h2>
+    <button id="addappointments-btn" class="add-appointmentsbtn" onclick="openModal()">
+      <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
+        <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2"/>
+      </svg>
+      Add Appointments
+    </button>
+  </div>
 
+  <main>
+    <div class="appointments-container">
+      <section class="calendar-section">
+        <h2>Appointments</h2>
+        <div class="calendar-header">
+          <button class="prev-month">&lt;</button>
+          <h3 id="currentMonth">October 2024</h3>
+          <button class="next-month">&gt;</button>
+        </div>
+        <div class="calendar">
+          <div class="weekdays">
+            <div>Sun</div>
+            <div>Mon</div>
+            <div>Tue</div>
+            <div>Wed</div>
+            <div>Thu</div>
+            <div>Fri</div>
+            <div>Sat</div>
+          </div>
+          <div id="calendar-days" class="days"></div>
+        </div>
+      </section>
+
+      <section class="appointments-list">
+        <div class="list-header">
+          <h2>Appointment List</h2>
+          <a href="#" class="see-all">See all</a>
+        </div>
+        <div class="list-filters">
+          <div class="filter">Veterinarian Name ▼</div>
+          <div class="filter">Pet Name ▼</div>
+          <div class="filter">Reason ▼</div>
+          <div class="filter">Date ▼</div>
+          <div class="filter">Time ▼</div>
+          <div class="filter">Status ▼</div>
+          <div class="filter">Actions ▼</div>
+        </div>
+        <div class="appointments">
+          {% for appointment in pending_appointments %}
+              <div class="appointment-item">
+                  <div class="appointment-details">
+                      <p>{{ appointment.veterinarian_name }}</p>
+                      <p>{{ appointment.pet_name }}</p>
+                      <p>{{ appointment.reason_for_visit }}</p>
+                      <p>{{ appointment.appointment_date }}</p>
+                      <p>{{ appointment.appointment_time }}</p>
+                      <p class="status">{{ static_status }}</p> 
+                  </div>
+                  <div class="appointment-actions">
+                      <button class="edit-btn">Edit</button>
+                      <form method="POST" action="{% url 'cancel_appointment' appointment.id %}">
+                          {% csrf_token %}
+                          <button type="submit" class="delete-btn">Cancel</button>
+                      </form>
+                  </div>
+              </div>
+          {% empty %}
+              <p>No pending appointments found.</p>
+          {% endfor %}
+        </div>          
+      </section>            
+    </div>
+  </main>
+
+  <!-- Modal Structure -->
+  <div id="modal" class="modal-background">
+    <div class="modal-content">
+      <button class="close-btn" onclick="closeModal()">×</button>
+      <h2>Make an Appointment</h2>
+      <form class="appointment-form" id="appointment-form" action="{% url 'set_appointment' %}" method="POST">
+        {% csrf_token %}
+        <div class="form-row">
+            <input type="text" name="owner_name" placeholder="Owner Name" required>
+            <input type="text" name="pet_name" placeholder="Pet Name" required>
+        </div>
+        <div class="form-row">
+            <input type="text" name="email" placeholder="Email" required>
+            <input type="text" name="phone_number" placeholder="Phone Number" required>
+        </div>
+        <div class="form-row">
+            <input type="date" name="appointment_date" required>
+            <input type="time" name="appointment_time" required>
+        </div>
+        <div class="form-row">
+            <input type="text" name="veterinarian_name" class="full-width" placeholder="Veterinarian" required>
+        </div>
+        <textarea name="reason" placeholder="Reason for visit" required></textarea>
+        <div class="btn-row">
+            <button type="button" class="cancel-btn" onclick="closeModal()">Cancel</button>
+            <button type="submit" class="submit-btn">Submit</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="{% static 'js/modal.js' %}"></script>
+  <script src="{% static 'js/appointments.js' %}"></script>
 </body>
 </html>
