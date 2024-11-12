@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ owner.first_name }}'s Pets</title>
+    <style>
+        body {
+            font-family: 'Poppins', Arial, sans-serif;
+            background: linear-gradient(135deg, #B6F2F2, #7ED9D9);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            width: 60%;
+            background: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            text-align: center;
+        }
+        .title {
+            font-size: 1.8em;
+            color: #3e4a59;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        .pet-list {
+            list-style: none;
+            padding: 0;
+        }
+        .pet-item {
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            text-align: left;
+            transition: transform 0.3s;
+        }
+        .pet-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+        }
+        .pet-item a {
+            text-decoration: none;
+            color: #00796b;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="title">{{ owner.first_name }}'s Pets</div>
+
+        {% if pets %}
+            <ul class="pet-list">
+                {% for pet in pets %}
+                    <li class="pet-item">
+                        <a href="{% url 'pet_profile' pet.pet_id %}">{{ pet.pet_name }}</a><br>
+                        <strong>Species:</strong> {{ pet.species }}<br>
+                        <strong>Breed:</strong> {{ pet.breed }}<br>
+                        <strong>Age:</strong> {{ pet.age }} years<br>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>No pets found for this owner.</p>
+        {% endif %}
+    </div>
+</body>
+</html>

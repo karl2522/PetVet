@@ -15,76 +15,128 @@
             align-items: center;
             height: 100vh;
             margin: 0;
-        }
-        .registration-container {
-            width: 60%;
-            max-width: 800px;
-            background-color: #ffffff;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            border-radius: 10px;
-            display: flex;
-            gap: 20px;
             padding: 20px;
+            box-sizing: border-box;
         }
+
+        .registration-container {
+            display: flex;
+            background-color: #ffffff;
+            border-radius: 20px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            max-width: 900px;
+            width: 100%;
+        }
+
         .image-container {
             flex: 1;
+            background-color: #FAFAFA;
             display: flex;
             justify-content: center;
             align-items: center;
+            padding: 20px;
         }
+
         .image-container img {
             max-width: 100%;
-            border-radius: 10px;
+            height: auto;
+            border-radius: 15px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         }
+
         .form-container {
             flex: 1;
+            padding: 30px;
+            position: relative;
         }
+
         .form-container h1 {
-            text-align: center;
-            color: #424242;
-            font-weight: 500;
+            font-size: 1.8em;
+            font-weight: 600;
+            color: #333;
             margin-bottom: 20px;
         }
+
+        .close-button {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 24px;
+            color: #333;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
         .form-group {
             display: flex;
-            justify-content: space-between;
             gap: 10px;
             margin-bottom: 15px;
         }
+
         .form-group label {
+            display: block;
             color: #424242;
             font-size: 0.9em;
+            font-weight: 500;
+            margin-bottom: 5px;
         }
+
         .form-group input,
         .form-group select,
         .form-group textarea {
             width: 100%;
-            padding: 8px;
+            padding: 10px 15px;
             border: 1px solid #ccc;
-            border-radius: 5px;
+            border-radius: 15px;
             font-family: 'Poppins', sans-serif;
+            font-size: 0.95em;
+            transition: border-color 0.3s ease;
+            box-sizing: border-box;
+            height: 45px;
         }
-        .form-group textarea {
-            resize: none;
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: #0B8494;
+            outline: none;
         }
+
         .half-width {
             flex: 1;
+            min-width: 45%;
         }
+
+        .form-group textarea {
+            resize: vertical;
+            height: 80px;
+            padding: 10px 15px;
+        }
+
         .submit-btn {
             background-color: #FFC107;
             border: none;
-            padding: 10px;
-            color: white;
+            padding: 12px;
+            color: #FFFFFF;
             font-weight: bold;
-            border-radius: 5px;
+            border-radius: 20px;
             cursor: pointer;
             font-size: 1em;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
             width: 100%;
             margin-top: 20px;
+            transition: background-color 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
         }
+
         .submit-btn:hover {
             background-color: #e0a800;
+        }
+
+        .error-message {
+            color: red;
+            font-size: 0.9em;
+            margin-bottom: 15px;
         }
     </style>
 </head>
@@ -94,12 +146,26 @@
             <img src="{% static 'images/cat.jpg' %}" alt="Pet Image">
         </div>
         <div class="form-container">
-            <h1>Register a New Pet</h1>
+            <a href="{% url 'homepage' %}" class="close-button">&times;</a>
+            <h1>Pet Registration</h1>
+
+            <!-- Display form errors if there are any -->
+            {% if form.errors %}
+                <div class="error-message">
+                    <p>Please fix the following errors:</p>
+                    <ul>
+                        {% for field, errors in form.errors.items %}
+                            <li><strong>{{ field }}:</strong> {{ errors|join:", " }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
+
             <form method="POST">
                 {% csrf_token %}
                 <div class="form-group">
                     <div class="half-width">
-                        <label for="id_pet_name">Pet Name:</label>
+                        <label for="id_pet_name">Name:</label>
                         {{ form.pet_name }}
                     </div>
                     <div class="half-width">
@@ -123,7 +189,7 @@
                         {{ form.species }}
                     </div>
                     <div class="half-width">
-                        <label for="id_weight">Weight (in kg):</label>
+                        <label for="id_weight">Weight:</label>
                         {{ form.weight }}
                     </div>
                 </div>
@@ -135,7 +201,7 @@
                     <label for="id_owner">Owner:</label>
                     {{ form.owner }}
                 </div>
-                <button type="submit" class="submit-btn">Register Pet</button>
+                <button type="submit" class="submit-btn">Submit</button>
             </form>
         </div>
     </div>

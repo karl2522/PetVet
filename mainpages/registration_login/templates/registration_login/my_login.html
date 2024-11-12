@@ -8,14 +8,14 @@
     <!-- Import Poppins font -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 
-    <!-- Bootstrap for basic styling and custom CSS -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Minty Theme -->
+    <link href="https://bootswatch.com/5/minty/bootstrap.min.css" rel="stylesheet">
 
     <!-- Custom Styles -->
     <style>
         body {
             font-family: 'Poppins', sans-serif;
-            background-color: rgba(29, 218, 218, 0.85); /* Background color with 85% opacity */
+            background-color: #B6F2F2;
             height: 100vh;
             display: flex;
             justify-content: center;
@@ -25,38 +25,38 @@
 
         .login-container {
             background-color: white;
-            border-radius: 10px;
-            box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.1);
-            width: 350px;
-            padding: 30px;
-            text-align: left;  /* Changed to left alignment */
+            border-radius: 15px;
+            box-shadow: 0px 8px 30px rgba(0, 0, 0, 0.2);
+            width: 400px;
+            padding: 40px;
+            text-align: center;
+            position: relative;
         }
 
         .login-container h1 {
-            font-size: 24px;
-            font-weight: 600;
-            margin-bottom: 20px;
-            text-align: center;  /* Center title */
+            font-size: 28px;
+            font-weight: 700;
+            color: #125B9A;
+            margin-bottom: 25px;
         }
 
-        .login-container form {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .login-container form label {
+        .login-container label {
             text-align: left;
             font-weight: 600;
+            color: #666;
             margin-bottom: 5px;
+            display: block; /* Ensures label takes up full width */
         }
 
         .login-container form input[type="text"],
         .login-container form input[type="password"] {
-            border: 1px solid #ccc;
-            padding: 10px;
-            border-radius: 5px;
-            margin-bottom: 10px;
-            width: 100%;  /* Full width */
+            border: 1px solid #ced4da;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            width: 100%;
+            font-size: 15px;
+            color: #495057;
         }
 
         .login-container form input[type="submit"] {
@@ -64,10 +64,12 @@
             border: none;
             color: white;
             font-weight: 600;
-            padding: 10px;
-            border-radius: 5px;
+            padding: 12px;
+            border-radius: 8px;
             cursor: pointer;
-            margin-top: 10px;
+            width: 100%;
+            font-size: 16px;
+            margin-top: 15px;
         }
 
         .login-container form input[type="submit"]:hover {
@@ -75,9 +77,9 @@
         }
 
         .login-container a {
-            color: #FFC107;
-            text-decoration: none;
+            color: #125B9A;
             font-weight: 500;
+            text-decoration: none;
         }
 
         .login-container a:hover {
@@ -86,24 +88,29 @@
 
         .forgot-password,
         .signup-link {
-            margin-top: 10px;
             font-size: 14px;
+            margin-top: 10px;
         }
 
         .close-button {
             position: absolute;
-            top: 20px;
-            right: 20px;
+            top: 15px;
+            right: 15px;
             font-size: 24px;
             color: #333;
             cursor: pointer;
+            text-decoration: none;
+        }
+
+        .close-button:hover {
+            color: #FFC107;
         }
     </style>
 </head>
 <body>
 
     <!-- Close Button for Popup Style -->
-    <div class="close-button" onclick="closePage()">&times;</div>
+    <a href="{% url 'landingpage' %}" class="close-button">&times;</a>
 
     <div class="login-container">
         <h1>Sign in</h1>
@@ -111,31 +118,26 @@
             {% csrf_token %}
 
             <!-- Username field -->
-            <label for="username">Username:</label>
+            <label for="username" class="text-start">Username:</label>
             {{ loginform.username }}
 
             <!-- Password field -->
-            <label for="password">Password:</label>
+            <label for="password" class="text-start">Password:</label>
             {{ loginform.password }}
 
-            <a href="#" class="forgot-password">Forgot your password?</a>
+            <!-- Forgot Password Link -->
+            <div class="forgot-password">
+                <a href="#">Forgot your password?</a>
+            </div>
 
             <!-- Submit Button -->
             <input type="submit" value="Login"/>
         </form>
 
-        <div class="signup-link">
+        <div class="signup-link mt-4">
             Don't have an account? <a href="{% url 'register' %}">Sign up</a>
         </div>
     </div>
-
-    <!-- JavaScript for Close Button functionality -->
-    <script>
-        function closePage() {
-            // Redirect to the home page when the close button is clicked
-            window.location.href = "{% url 'homepage' %}";
-        }
-    </script>
 
     <!-- Optional JavaScript for Bootstrap -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>

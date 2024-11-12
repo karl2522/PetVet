@@ -6,4 +6,6 @@ urlpatterns = [
     path('pet_registration_success/<str:pet_id>/', views.pet_registration_success, name='pet_registration_success'),
     path('profile/<str:pet_id>/', views.pet_profile, name='pet_profile'),
     path('profile/<str:pet_id>/update/', views.update_pet, name='update_pet'),  # New URL pattern for updating pet
+     # New URL pattern for listing pets by owner
+    path('owner/<str:owner_id>/pets/', views.pet_list_by_owner, name='pet_list_by_owner'),
 ]

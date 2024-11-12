@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from .forms import PetRegistrationForm
 from registration_login.models import Profile
 from .models import Pet
+from .forms import PetUpdateForm
 
 def pet_registration(request):
     if request.method == 'POST':
@@ -19,32 +20,35 @@ def pet_registration(request):
     return render(request, 'pet_registration/pet_registration.html', context)
 
 def update_pet(request, pet_id):
-    # Retrieve the pet instance from the database
     pet = get_object_or_404(Pet, pet_id=pet_id)
 
     if request.method == 'POST':
-        # Populate form with data from POST request, excluding 'owner'
-        form = PetRegistrationForm(request.POST, instance=pet)
+        form = PetUpdateForm(request.POST, instance=pet)
 
         if form.is_valid():
-            # Save the form data without committing immediately
             updated_pet = form.save(commit=False)
-            # Set the owner to the current owner from the pet instance
-            updated_pet.owner = pet.owner
-            updated_pet.save()  # Save the updated instance with the owner set
+            updated_pet.owner = pet.owner  # Ensure the owner remains unchanged
+            updated_pet.save()
             return redirect('pet_profile', pet_id=pet.pet_id)
         else:
-            # If form is invalid, print the errors
-            print(form.errors)
+            return render(request, 'pet_registration/update_pet.html', {'form': form, 'pet': pet})
+
     else:
-        # Populate the form with the existing pet data for GET request
-        form = PetRegistrationForm(instance=pet)
+        form = PetUpdateForm(instance=pet)
+
+    return render(request, 'pet_registration/update_pet.html', {'form': form, 'pet': pet})
+
+def pet_list_by_owner(request, owner_id):
+    # Fetch the owner instance
+    owner = get_object_or_404(Profile, user_id=owner_id)
+    # Retrieve all pets for this owner
+    pets = Pet.objects.filter(owner=owner)
 
     context = {
-        'pet': pet,
-        'form': form
+        'owner': owner,
+        'pets': pets
     }
-    return render(request, 'pet_registration/update_pet.html', context)
+    return render(request, 'pet_registration/pet_list_by_owner.html', context)
 
 def pet_registration_success(request, pet_id):
     pet = get_object_or_404(Pet, pet_id=pet_id)

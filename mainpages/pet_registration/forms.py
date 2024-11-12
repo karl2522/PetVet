@@ -9,3 +9,11 @@ class PetRegistrationForm(forms.ModelForm):
         widgets = {
             'birthday': forms.DateInput(attrs={'type': 'date'}),
         }
+
+class PetUpdateForm(forms.ModelForm):
+    class Meta:
+        model = Pet
+        exclude = ['pet_id', 'owner']  # Exclude both pet_id and owner fields
+        widgets = {
+            'birthday': forms.DateInput(attrs={'type': 'date'}),
+        }
