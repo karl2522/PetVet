@@ -16,30 +16,25 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from appointments import views as appointments_views
+from appointments import views 
 from landingpage import views as landing_views
 from registration_login import views as registration_views
 from homepage import views as homepage_views
+from django.conf import settings
+from django.conf.urls.static import static
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', homepage_views.homepage, name='homepage'),
-
-    # Appointment URLs
-    path('appointments/', appointments_views.appointments_page, name="appointments_page"),
-    path('set-appointment/', appointments_views.set_appointment, name='set_appointment'),
-    path('appointments/cancel/<int:id>/', appointments_views.cancel_appointment, name='cancel_appointment'),  
-
-    # Landing page
-    path('landingpage/', landing_views.landingpage, name='landingpage'),
-
-    # Authentication
+    path('', views.appointments, name="set_appointment"),
+    path('landingpage', landing_views.landingpage, name='landingpage'),
     path('login/', registration_views.my_login, name='my_login'),
     path('logout/', registration_views.user_logout, name='logout'),
+    path('homepage', homepage_views.homepage, name='homepage'),
     path('register/', registration_views.register, name='register'),
     path('registration_success/', registration_views.registration_success, name='registration_success'),
-
-    # Profile and other apps
-    # path('profile/', registration_views.profile, name='profile'),
     path('pet_registration/', include('pet_registration.urls')),
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -1,21 +1,17 @@
-// Function to open the modal
-function openModal() {
-  document.getElementById("modal").style.display = "flex";
-  console.log("Modal is clicked!")
-}
-
-// Function to close the modal
-function closeModal() {
-  document.getElementById("modal").style.display = "none";
-}
-
-// Open modal when the Set Appointment button is clicked
-document.getElementById("addappointments-btn").onclick = openModal;
-
-// Close modal when clicking outside the modal content
-window.onclick = function(event) {
-  const modal = document.getElementById("modal");
-  if (event.target === modal) {
-      closeModal();
+document.getElementById("appointment-btn").onclick = function() {
+    document.getElementById("modal").style.display = "flex";
   }
-};
+  
+  // Close the modal when the close button is clicked
+  function closeModal() {
+    document.getElementById("modal").style.display = "none";
+  }
+  
+  // Close the modal when clicking outside of the modal content
+  window.onclick = function(event) {
+    const modal = document.getElementById("modal");
+    if (event.target === modal) {
+      modal.style.display = "none";
+    }
+  }
+  

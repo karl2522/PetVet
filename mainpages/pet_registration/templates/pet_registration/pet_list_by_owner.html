@@ -1,0 +1,288 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}PetVet - List of Pets{% endblock %}
+
+{% block nav_pet %}active{% endblock %}
+
+{% block extra_css %}
+<style>
+    :root {
+        --primary-color: #20B2AA;
+        --secondary-color: #FFD700;
+    }
+    
+    .filter-container {
+        position: relative;
+        overflow: hidden;
+        margin: 20px 0;
+    }
+    
+    .filter-scroll {
+        display: flex;
+        overflow-x: hidden;
+        scroll-behavior: smooth;
+        padding: 0 40px;
+    }
+    
+    .filter-btn {
+        flex: 0 0 auto;
+        margin-right: 10px;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 20px;
+        background-color: #f8f9fa;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-size: 14px;
+    }
+    
+    .filter-btn:hover {
+        background-color: #e9ecef;
+    }
+    
+    .filter-btn.active {
+        background-color: #198754;
+        color: white;
+    }
+    
+    .scroll-btn {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 40px;
+        height: 40px;
+        border: none;
+        border-radius: 50%;
+        background-color: #fff;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        cursor: pointer;
+        z-index: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .scroll-btn.left {
+        left: 0;
+    }
+    
+    .scroll-btn.right {
+        right: 0;
+    }
+    
+    .scroll-btn:hover {
+        background-color: #f8f9fa;
+    }
+    
+    .pet-card {
+        border-radius: 15px;
+        overflow: hidden;
+        position: relative;
+        margin-bottom: 20px;
+        transition: transform 0.2s;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        cursor: pointer;
+    }
+    
+    .pet-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    }
+    
+    .pet-link {
+        text-decoration: none;
+        color: inherit;
+    }
+    
+    .pet-link:hover {
+        color: inherit;
+    }
+    
+    .pet-card img {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+    }
+    
+    .pet-info {
+        padding: 15px;
+        background: white;
+    }
+    
+    .close-btn {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background: white;
+        border: none;
+        border-radius: 50%;
+        width: 32px;
+        height: 32px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.2s;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    
+    .close-btn:hover {
+        background-color: #f8f9fa;
+        transform: scale(1.1);
+    }
+    
+    .add-pet-btn {
+        background-color: var(--primary-color);
+        color: white;
+        border: none;
+        border-radius: 15px;
+        padding: 15px;
+        height: 200px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 15px;
+        transition: all 0.3s;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    
+    .add-pet-btn:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        background-color: #1a9994;
+    }
+
+    .add-pet-btn img {
+        width: 48px;
+        height: 48px;
+        object-fit: contain;
+        margin-bottom: 10px;
+    }
+
+    .section-header {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        margin-bottom: 30px;
+    }
+
+    .section-header img {
+        width: 32px;
+        height: 32px;
+        object-fit: contain;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="section-header">
+        <img src="{% static 'images/toplogo.png' %}" alt="Pets">
+        <h1 class="h4 mb-0">{{ request.user.first_name }}'s Pets</h1>
+    </div>
+    
+    <div class="filter-container">
+        <button class="scroll-btn left" onclick="scrollFilters('left')">←</button>
+        <button class="scroll-btn right" onclick="scrollFilters('right')">→</button>
+        <div class="filter-scroll" id="filterScroll">
+            <button class="filter-btn active" onclick="filterPets('all')">
+                All Pets
+            </button>
+            {% for species in species_list %}
+            <button class="filter-btn" onclick="filterPets('{{ species }}')">
+                {{ species }}
+            </button>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+        {% for pet in pets %}
+        <div class="col pet-item" data-species="{{ pet.species }}">
+            <div class="pet-card h-100" onclick="window.location.href='{% url 'pet_profile' pet.pet_id %}'">
+                {% if pet.image_url %}
+                    <img src="{{ pet.image_url.url }}" alt="{{ pet.pet_name }}" class="card-img-top">
+                {% else %}
+                    {% if pet.species|lower == 'cat' %}
+                        <img src="{% static 'images/profile.png' %}" alt="{{ pet.pet_name }}" class="card-img-top">
+                    {% else %}
+                        <img src="{% static 'images/dogimg.png' %}" alt="{{ pet.pet_name }}" class="card-img-top">
+                    {% endif %}
+                {% endif %}
+                <form method="post" action="{% url 'delete_pet' pet.pet_id %}" class="d-inline" onclick="event.stopPropagation();">
+                    {% csrf_token %}
+                    <button type="submit" class="close-btn" onclick="return confirm('Are you sure you want to delete this pet?')">×</button>
+                </form>
+                <div class="pet-info">
+                    <h5 class="mb-1">{{ pet.pet_name }}</h5>
+                    <p class="text-muted mb-0">{{ pet.breed }}</p>
+                    <p class="text-muted mb-0">{{ pet.species }}</p>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+        
+        <!-- Add Pet Card -->
+        <div class="col">
+            <div class="h-100">
+                <a href="{% url 'register_pet' %}" class="add-pet-btn text-decoration-none h-100 d-flex align-items-center justify-content-center">
+                    <div class="text-center">
+                        <img src="{% static 'images/toplogo.png' %}" alt="Add Pet" class="mb-2">
+                        <span class="h5 mb-0 text-white d-block">ADD PET</span>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    function scrollFilters(direction) {
+        const container = document.getElementById('filterScroll');
+        const scrollAmount = 200;
+        if (direction === 'left') {
+            container.scrollLeft -= scrollAmount;
+        } else {
+            container.scrollLeft += scrollAmount;
+        }
+    }
+
+    function filterPets(species) {
+        // Remove active class from all filter buttons
+        document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+        // Add active class to clicked button
+        event.currentTarget.classList.add('active');
+
+        // Show/hide pets based on species
+        const pets = document.querySelectorAll('.pet-item');
+        pets.forEach(pet => {
+            if (species === 'all' || pet.dataset.species === species) {
+                pet.style.display = '';
+            } else {
+                pet.style.display = 'none';
+            }
+        });
+    }
+
+    // Check if scroll buttons should be visible
+    function updateScrollButtons() {
+        const container = document.getElementById('filterScroll');
+        const leftBtn = document.querySelector('.scroll-btn.left');
+        const rightBtn = document.querySelector('.scroll-btn.right');
+
+        leftBtn.style.display = container.scrollLeft > 0 ? '' : 'none';
+        rightBtn.style.display = 
+            container.scrollLeft < (container.scrollWidth - container.clientWidth) ? '' : 'none';
+    }
+
+    // Add scroll event listener
+    document.getElementById('filterScroll').addEventListener('scroll', updateScrollButtons);
+    
+    // Initial check
+    updateScrollButtons();
+</script>
+{% endblock %}
