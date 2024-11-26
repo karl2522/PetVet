@@ -7,7 +7,11 @@
 
     <!-- Load static tag for static files -->
     {% load static %}
+    {% load crispy_forms_tags %}
 
+    <!-- Import Bootstrap Minty Theme -->
+    <link rel="stylesheet" href="https://bootswatch.com/5/minty/bootstrap.min.css">
+    
     <!-- Import Poppins font -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 
@@ -15,12 +19,14 @@
     <style>
         body {
             font-family: 'Poppins', sans-serif;
-            background-color: #B6F2F2; /* Updated background color */
+            background-color: #B6F2F2;
             margin: 0;
             display: flex;
-            justify-content: center;
+            flex-direction: column;
             align-items: center;
-            height: 100vh;
+            min-height: 100vh;
+            padding: 100px;
+            box-sizing: border-box;
         }
 
         .container {
@@ -28,25 +34,21 @@
             max-width: 1100px;
             margin: auto;
             box-shadow: 0px 8px 30px rgba(0, 0, 0, 0.3);
-            background-color: #fff;
             border-radius: 20px;
             overflow: hidden;
         }
 
         .image-container {
-            flex: 1.2; /* Make the image take slightly more space */
+            flex: 1.2;
             overflow: hidden;
             position: relative;
-            border-top-left-radius: 20px;
-            border-bottom-left-radius: 20px;
+            border-radius: 20px 0 0 20px;
         }
 
         .image-container img {
             width: 100%;
             height: 100%;
-            object-fit: cover; /* Ensures the image covers the entire area */
-            display: block;
-            border-radius: 20px 0 0 20px;
+            object-fit: cover;
         }
 
         .back-to-website {
@@ -64,129 +66,47 @@
         .form-container {
             flex: 1;
             padding: 50px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
             position: relative;
-        }
-
-        .form-container h1 {
-            font-size: 32px;
-            font-weight: 700;
-            margin-bottom: 20px;
-            color: #333;
-        }
-
-        .form-container p {
-            font-size: 14px;
-            color: #666;
-            margin-bottom: 20px;
-        }
-
-        .form-container a {
-            color: #0066cc;
-            text-decoration: none;
-        }
-
-        .form-container a:hover {
-            text-decoration: underline;
-        }
-
-        .form-container form {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .form-container form input {
-            background-color: #f0f0f0;
-            border: none;
-            padding: 15px;
-            border-radius: 10px;
-            font-size: 16px;
-            color: #333;
-            margin-bottom: 15px;
-        }
-
-        .form-container form input::placeholder {
-            color: #999;
-        }
-
-        .form-container form input[type="submit"] {
-            background-color: #5e5ce6;
-            border: none;
-            color: white;
-            font-weight: 600;
-            padding: 15px;
-            border-radius: 10px;
-            cursor: pointer;
-            margin-top: 20px;
-        }
-
-        .form-container form input[type="submit"]:hover {
-            background-color: #4a4acc;
-        }
-
-        .social-login-buttons {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 30px;
-        }
-
-        .social-login-buttons a {
-            text-align: center;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background-color: #f0f0f0;
-            border-radius: 10px;
-            text-decoration: none;
-            color: #333;
-            padding: 15px;
-            flex: 1;
-            margin-right: 10px;
-        }
-
-        .social-login-buttons a img {
-            width: 20px;
-            height: 20px;
-            margin-right: 10px;
-        }
-
-        .social-login-buttons a:last-child {
-            margin-right: 0;
-        }
-
-        .terms-checkbox {
-            display: flex;
-            align-items: center; /* Vertically center checkbox and label */
-            margin-top: 15px; /* Top margin to provide spacing from the previous input field */
-            margin-bottom: 15px; /* Consistent margin to ensure spacing from next element */
-            color: #333;
-            gap: 12px; /* Increased gap to ensure text is at a comfortable distance */
-        }
-
-        .terms-checkbox input {
-            margin: 0; /* Remove default margins */
-            transform: scale(1.2); /* Increase size to make it visually similar to your example */
-            width: 18px; /* Specify a width for better cross-browser consistency */
-            height: 18px; /* Specify a height for better cross-browser consistency */
-        }
-
-        .logo-container {
-            position: absolute;
-            top: 20px;
-            right: 20px;
         }
 
         .logo-container img {
             width: 60px;
             height: 60px;
         }
+
+        .terms-checkbox {
+            display: flex;
+            align-items: center;
+            margin-top: 15px;
+        }
+
+        .terms-checkbox input {
+            margin-right: 10px;
+        }
+        
+        .divider-text {
+            position: relative;
+            text-align: center;
+            margin: 15px 0;
+        }
+        .divider-text:before,
+        .divider-text:after {
+            content: "";
+            position: absolute;
+            top: 50%;
+            width: 45%;
+            height: 1px;
+            background: #ddd;
+        }
+        .divider-text:before {
+            left: 0;
+        }
+        .divider-text:after {
+            right: 0;
+        }
     </style>
 </head>
 <body>
-
-    <!-- Registration Form Layout -->
     <div class="container">
         <!-- Image Section -->
         <div class="image-container">
@@ -196,37 +116,29 @@
 
         <!-- Form Section -->
         <div class="form-container">
-            <!-- Logo at the Upper Right -->
-            <div class="logo-container">
+            <div class="d-flex justify-content-end mb-3 logo-container">
                 <img src="{% static 'images/toplogo.png' %}" alt="Logo">
             </div>
 
-            <h1>Create an account</h1>
-            <p>Already have an account? <a href="{% url 'my_login' %}">Log in</a></p>
+            <h1 class="mb-3 text-center">Create an account</h1>
+            <p class="text-center">Already have an account? <a href="{% url 'my_login' %}">Log in</a></p>
 
-            <!-- Form Starts -->
             <form method="POST" autocomplete="off">
                 {% csrf_token %}
-                {{ form.as_p }} <!-- Renders all the form fields automatically including errors -->
-            
-                <!-- Terms and Conditions Checkbox -->
-                <div class="terms-checkbox">
-                    <input type="checkbox" name="terms" required>
-                    <span>I agree to the <a href="#">Terms & Conditions</a></span>
+                {{ form|crispy }}
+                
+                <div class="terms-checkbox form-check mt-4">
+                    <input class="form-check-input" type="checkbox" name="terms" required>
+                    <label class="form-check-label">
+                        I agree to the <a href="#">Terms & Conditions</a>
+                    </label>
                 </div>
             
-                <!-- Submit Button -->
-                <input type="submit" value="Create account">
-            
-                <!-- Social Login Options -->
-                <div class="social-login-buttons">
-                    <a href="#"><img src="{% static 'images/google-logo.png' %}" alt="Google"> Google</a>
-                    <a href="#"><img src="{% static 'images/apple-logo.png' %}" alt="Apple"> Apple</a>
-                </div>
+                <button type="submit" class="btn btn-primary w-100 mt-4">Create account</button>
             </form>
-            
         </div>
     </div>
 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </body>
 </html>
