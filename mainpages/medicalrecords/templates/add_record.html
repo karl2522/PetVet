@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Medical Record</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/mainstyles.css' %}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f8ff; /* Light blue background */
+            margin: 0;
+            padding: 20px;
+        }
+        h2 {
+            text-align: center;
+            color: #004080; /* Dark blue color for heading */
+        }
+        .form-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px; /* Rounded corners for the form */
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px; /* Add space between form elements */
+        }
+        label {
+            font-weight: bold;
+            color: #004080; /* Dark blue for labels */
+        }
+        input, select, textarea {
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            width: 100%; /* Make inputs full width */
+        }
+        textarea {
+            resize: vertical; /* Allow vertical resizing */
+            height: 100px; /* Set a default height for textarea */
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #004080;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            align-self: center; /* Center the button */
+        }
+        button:hover {
+            background-color: #00509e; /* Darker blue on hover */
+        }
+        .back-button {
+            text-align: center;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="top-logo">
+                <img src="{% static 'images/toplogo.png' %}" alt="PetVet Logo">  
+                <h1>Pet<span class="highlight">Vet</span></h1>
+                <ul class="nav-links">
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">Appointments</a></li>
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Your Pet</a></li>
+                    <li><a href="#" class="active">Billing</a></li>
+                </ul>
+                <img src="{% static 'images/profile.png' %}" alt="Profile">
+            </div>
+        </nav>
+    </header>
+    <br/><br/>
+    <h2>Add Medical Record</h2>
+    <br/>
+    <div class="form-container">
+        <form method="POST">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Add Record</button>
+        </form>
+    </div>
+</body>
+</html>

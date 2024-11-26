@@ -1,5 +1,6 @@
 from django.db import models
 
+
 class Billing(models.Model):
     PAYMENT_METHODS = [
         ('CASH', 'Cash'),

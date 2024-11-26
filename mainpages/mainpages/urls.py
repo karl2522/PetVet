@@ -27,4 +27,5 @@ urlpatterns = [
     path('billing/', include('billings.urls', namespace='billings')),
     path('update_billing/<int:billing_id>/', views.update_billing, name='update_billing'),
     path('delete_billing/<int:billing_id>/', views.delete_billing, name='delete_billing'),
+    path('medicalrecords/', include('medicalrecords.urls')),
 ]
