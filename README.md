@@ -13,6 +13,7 @@ The system is built using **Django** for the backend and **HTML** for the fronte
 
 The goal of this project is to improve clinic efficiency, reduce administrative workload, and ensure pets receive timely care.
 
+
 ## Features
 
 ### User Side (Pet Owners):
@@ -26,6 +27,11 @@ The goal of this project is to improve clinic efficiency, reduce administrative 
 - Appointment Management: Track, update, and confirm bookings.
 - Pet Health Records: Store and manage detailed medical records and procedures.
 - Billing Management: Generate an invoice after a complete appointment request.
+
+### Database
+
+We are using **SQLite** as the local database for this project. By default, Django comes with SQLite as the backend database, which is lightweight and easy to configure. It is suitable for development and testing purposes. You don't need to install any additional database management systems to get started with this project.
+
 
 ## Installation
 
@@ -64,6 +70,7 @@ To get started with the Pet Veterinary Clinic System, follow these steps:
     ```
 
 ### 5. Apply Database Migrations:
+    Since we are using SQLite as the local database, no additional configuration is needed. Run the following command to apply migrations:
 
     ```bash
     python manage.py migrate
