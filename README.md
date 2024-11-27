@@ -23,7 +23,7 @@ Backend:
     - Python: The primary language for backend development.
     - Django: The web framework for building the backend and managing the database.
 
-### Database
+## Database
 
 We are using **SQLite** as the local database for this project. By default, Django comes with SQLite as the backend database, which is lightweight and easy to configure. It is suitable for development and testing purposes. You don't need to install any additional database management systems to get started with this project.
 
