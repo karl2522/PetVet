@@ -13,6 +13,19 @@ The system is built using **Django** for the backend and **HTML** for the fronte
 
 The goal of this project is to improve clinic efficiency, reduce administrative workload, and ensure pets receive timely care.
 
+## Technologies Used
+
+Frontend:
+    - HTML: For the structure of web pages.
+    - Bootstrap CSS: For styling and layout of the frontend.
+    - JavaScript: Used for dynamic client-side functionality and interactivity.
+Backend:
+    - Python: The primary language for backend development.
+    - Django: The web framework for building the backend and managing the database.
+
+### Database
+
+We are using **SQLite** as the local database for this project. By default, Django comes with SQLite as the backend database, which is lightweight and easy to configure. It is suitable for development and testing purposes. You don't need to install any additional database management systems to get started with this project.
 
 ## Features
 
@@ -27,11 +40,6 @@ The goal of this project is to improve clinic efficiency, reduce administrative 
 - Appointment Management: Track, update, and confirm bookings.
 - Pet Health Records: Store and manage detailed medical records and procedures.
 - Billing Management: Generate an invoice after a complete appointment request.
-
-### Database
-
-We are using **SQLite** as the local database for this project. By default, Django comes with SQLite as the backend database, which is lightweight and easy to configure. It is suitable for development and testing purposes. You don't need to install any additional database management systems to get started with this project.
-
 
 ## Installation
 
